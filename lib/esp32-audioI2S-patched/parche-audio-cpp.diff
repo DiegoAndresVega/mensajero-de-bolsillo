@@ -1,0 +1,59 @@
+--- a/src/Audio.cpp
++++ b/src/Audio.cpp
+@@ -16,12 +16,9 @@
+ *****************************************************************************************************************************************************/
+ 
+ #include "Audio.h"
+-#include "aac_decoder/aac_decoder.h"
+-#include "flac_decoder/flac_decoder.h"
++// PARCHE llavero: solo MP3 y WAV. Se quitan los includes de AAC, FLAC, Opus y Vorbis.
+ #include "mp3_decoder/mp3_decoder.h"
+-#include "opus_decoder/opus_decoder.h"
+ #include "psram_unique_ptr.hpp"
+-#include "vorbis_decoder/vorbis_decoder.h"
+ #include "wav_decoder/wav_decoder.h"
+ 
+ // constants
+@@ -375,11 +372,8 @@
+ // —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+ std::unique_ptr<Decoder> Audio::createDecoder(const std::string& type) {
+     destroy_decoder();
++    // PARCHE llavero: sin FLAC, OPUS, AAC ni VORBIS; para ellos devuelve nullptr
+     if (type == "MP3") return std::make_unique<MP3Decoder>(*this);
+-    if (type == "FLAC") return std::make_unique<FlacDecoder>(*this);
+-    if (type == "OPUS") return std::make_unique<OpusDecoder>(*this);
+-    if (type == "AAC") return std::make_unique<AACDecoder>(*this);
+-    if (type == "VORBIS") return std::make_unique<VorbisDecoder>(*this);
+     if (type == "WAV") return std::make_unique<WavDecoder>(*this);
+     return nullptr;
+ }
+@@ -5577,28 +5571,7 @@
+ // —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+ uint32_t Audio::decodeContinue(int8_t res, uint8_t* data, int32_t bytesDecoded, int32_t* bytesLeft) {
+     // if(m_codec == CODEC_MP3){   if(res == MAD_ERROR_CONTINUE)    return bytesDecoded;} // nothing to play, mybe eof
+-    if (m_codec == CODEC_AAC) {
+-        if (res == AACDecoder::AAC_ID3_HDR) {
+-            uint32_t size = ((data[6 + bytesDecoded] & 0x7F) << 21) | ((data[7 + bytesDecoded] & 0x7F) << 14) | ((data[8 + bytesDecoded] & 0x7F) << 7) | (data[9 + bytesDecoded] & 0x7F);
+-            size += 10; // skip payload
+-            return bytesDecoded + size;
+-            if (bytesDecoded > *bytesLeft) AUDIO_LOG_ERROR("AAC input data too small bytesDecoded {} > bytesLeft {}", bytesDecoded, *bytesLeft);
+-        }
+-    }
+-
+-    if (m_codec == CODEC_FLAC) {
+-        if (res == FlacDecoder::FLAC_PARSE_OGG_DONE) return bytesDecoded;
+-        if (res == FlacDecoder::FLAC_DECODE_FRAMES_LOOP) return bytesDecoded;
+-    } // nothing to play
+-    if (m_codec == CODEC_OPUS) {
+-        if (res == OpusDecoder::OPUS_PARSE_OGG_DONE) return bytesDecoded;
+-        if (res == OpusDecoder::OPUS_END) return bytesDecoded;
+-    } // nothing to play
+-    if (m_codec == CODEC_VORBIS) {
+-        if (res == VorbisDecoder::VORBIS_PARSE_OGG_DONE) return bytesDecoded;
+-        if (res == VorbisDecoder::VORBIS_COMMENT_DONE) return bytesDecoded;
+-        if (res == VorbisDecoder::VORBIS_COMMENT_NEED_MORE) return bytesDecoded;
+-    } // nothing to play
++    // PARCHE llavero: quitadas las ramas de AAC, FLAC, Opus y Vorbis (usaban constantes de sus decodificadores)
+     if (m_codec == CODEC_MP3) {
+         if (res == MP3Decoder::MP3_NEXT_FRAME) return bytesDecoded;
+     }

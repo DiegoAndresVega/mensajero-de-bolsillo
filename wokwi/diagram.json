@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "author": "llavero",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-microsd-card",
+      "id": "sd1",
+      "top": -20,
+      "left": 220,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-ili9341",
+      "id": "lcd1",
+      "top": -260,
+      "left": -10,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 20,
+      "left": -180,
+      "attrs": {
+        "color": "green",
+        "label": "BTN1 arriba",
+        "key": "1"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": 90,
+      "left": -180,
+      "attrs": {
+        "color": "blue",
+        "label": "BTN2 abajo",
+        "key": "2"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn3",
+      "top": 160,
+      "left": -180,
+      "attrs": {
+        "color": "yellow",
+        "label": "BTN3 OK",
+        "key": "3"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn4",
+      "top": 230,
+      "left": -180,
+      "attrs": {
+        "color": "red",
+        "label": "BTN4 atras",
+        "key": "4"
+      }
+    }
+  ],
+  "serialMonitor": {
+    "display": "terminal"
+  },
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "sd1:CS",
+      "esp:2",
+      "green",
+      []
+    ],
+    [
+      "sd1:DI",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "sd1:SCK",
+      "esp:12",
+      "orange",
+      []
+    ],
+    [
+      "sd1:DO",
+      "esp:13",
+      "purple",
+      []
+    ],
+    [
+      "sd1:VCC",
+      "esp:3V3.1",
+      "red",
+      []
+    ],
+    [
+      "sd1:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "lcd1:VCC",
+      "esp:3V3.2",
+      "red",
+      []
+    ],
+    [
+      "lcd1:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "lcd1:CS",
+      "esp:10",
+      "green",
+      []
+    ],
+    [
+      "lcd1:RST",
+      "esp:3",
+      "gray",
+      []
+    ],
+    [
+      "lcd1:D/C",
+      "esp:1",
+      "yellow",
+      []
+    ],
+    [
+      "lcd1:MOSI",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "lcd1:SCK",
+      "esp:12",
+      "orange",
+      []
+    ],
+    [
+      "lcd1:LED",
+      "esp:17",
+      "white",
+      []
+    ],
+    [
+      "btn1:1.r",
+      "esp:8",
+      "green",
+      []
+    ],
+    [
+      "btn1:2.r",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "btn2:1.r",
+      "esp:7",
+      "blue",
+      []
+    ],
+    [
+      "btn2:2.r",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "btn3:1.r",
+      "esp:9",
+      "yellow",
+      []
+    ],
+    [
+      "btn3:2.r",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "btn4:1.r",
+      "esp:14",
+      "red",
+      []
+    ],
+    [
+      "btn4:2.r",
+      "esp:GND.1",
+      "black",
+      []
+    ]
+  ]
+}

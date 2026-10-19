@@ -1,0 +1,12 @@
+{
+  "wifi_networks": [
+    { "ssid": "NOMBRE_DE_TU_WIFI", "password": "CLAVE_DE_TU_WIFI" },
+    { "ssid": "OTRA_RED_OPCIONAL", "password": "SU_CLAVE" }
+  ],
+  "api_url": "https://backend.example.com",
+  "api_token": "PON_AQUI_EL_TOKEN",
+  "wokwi_mode": false,
+  "audio_volume": 15,
+  "notification_sound": true,
+  "personal_message": ""
+}
